@@ -102,6 +102,8 @@
 
 **metrics-autoscaling-instance-count.rb**
 
+**metrics-billing.rb**
+
 **metrics-ec2-count.rb**
 
 **metrics-ec2-filter.rb**
@@ -113,6 +115,8 @@
 **metrics-elb.rb**
 
 **metrics-emr-steps.rb**
+
+**metrics-s3.rb**
 
 **metrics-ses.rb**
 
@@ -159,12 +163,14 @@
 * /bin/handler-sns.rb
 * /bin/metrics-autoscaling-instance-count.rb
 * /bin/check-instances-count.rb
+* /bin/metrics-billing.rb
 * /bin/metrics-ec2-count.rb
 * /bin/metrics-ec2-filter.rb
 * /bin/metrics-elasticache.rb
 * /bin/metrics-elb-full.rb
 * /bin/metrics-elb.rb
 * /bin/metrics-emr-steps.rb
+* /bin/metrics-s3.rb
 * /bin/metrics-ses.rb
 * /bin/metrics-sqs.rb
 
