@@ -54,10 +54,10 @@ class S3Metrics < Sensu::Plugin::Metric::CLI::Graphite
       cw = Aws::CloudWatch::Client.new(aws_config)
       
       results = {}
-
+      now = Time.now
       list_buckets.buckets.each do |bucket|
         bucket_name = bucket.name.gsub('.', '_')
-
+        now 
         bucket_size_bytes = cw.get_metric_statistics({
           namespace: 'AWS/S3',
           metric_name: 'BucketSizeBytes',
@@ -70,13 +70,13 @@ class S3Metrics < Sensu::Plugin::Metric::CLI::Graphite
               value: 'StandardStorage'
             }
           ],
-          start_time: (Time.now.utc - 6 * 60 * 60).iso8601,
-          end_time: Time.now.utc.iso8601,
+          start_time: (now.utc - 6 * 60 * 60).iso8601,
+          end_time: now.utc.iso8601,
           period: 6 * 60 * 60,
           statistics: ['Average'],
           unit: 'Bytes'
         })
-        output "#{config[:scheme]}.#{bucket_name}.bucket_size_bytes", bucket_size_bytes[:datapoints][0].average, bucket_size_bytes[:datapoints][0][:timestamp].to_i unless bucket_size_bytes[:datapoints][0].nil?
+        output "#{config[:scheme]}.#{bucket_name}.bucket_size_bytes", bucket_size_bytes[:datapoints][0].average, now.to_i unless bucket_size_bytes[:datapoints][0].nil?
 
         number_of_objects = cw.get_metric_statistics({
           namespace: 'AWS/S3',
@@ -90,13 +90,13 @@ class S3Metrics < Sensu::Plugin::Metric::CLI::Graphite
               value: 'AllStorageTypes'
             }
           ],
-          start_time: (Time.now.utc - 6 * 60 * 60).iso8601,
-          end_time: Time.now.utc.iso8601,
+          start_time: (now.utc - 6 * 60 * 60).iso8601,
+          end_time: now.utc.iso8601,
           period: 6 * 60 * 60,
           statistics: ['Average'],
           unit: 'Count'
         })
-        output "#{config[:scheme]}.#{bucket_name}.number_of_objects", number_of_objects[:datapoints][0].average, number_of_objects[:datapoints][0][:timestamp].to_i unless number_of_objects[:datapoints][0].nil?
+        output "#{config[:scheme]}.#{bucket_name}.number_of_objects", number_of_objects[:datapoints][0].average, now.to_i unless number_of_objects[:datapoints][0].nil?
       end
 
     rescue => e

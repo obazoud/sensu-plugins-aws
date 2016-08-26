@@ -55,7 +55,7 @@ class BillingMetrics < Sensu::Plugin::Metric::CLI::Graphite
   def run
     begin
       cw = Aws::CloudWatch::Client.new(aws_config)
-
+      now = Time.now
       r = cw.get_metric_statistics({
         namespace: 'AWS/Billing',
         metric_name: 'EstimatedCharges',
@@ -65,8 +65,8 @@ class BillingMetrics < Sensu::Plugin::Metric::CLI::Graphite
             value: 'USD'
           }
         ],
-        start_time: (Time.now.utc - 6 * 60 * 60).iso8601,
-        end_time: Time.now.utc.iso8601,
+        start_time: (now.utc - 6 * 60 * 60).iso8601,
+        end_time: now.utc.iso8601,
         period: 6 * 60 * 60,
         statistics: ['Maximum'],
         unit: 'None'
@@ -81,8 +81,8 @@ class BillingMetrics < Sensu::Plugin::Metric::CLI::Graphite
             { name: 'Currency', value: 'USD' },
             { name: 'ServiceName', value: service_name }
           ],
-          start_time: (Time.now.utc - 6 * 60 * 60).iso8601,
-          end_time: Time.now.utc.iso8601,
+          start_time: (now.utc - 6 * 60 * 60).iso8601,
+          end_time: now.utc.iso8601,
           period: 6 * 60 * 60,
           statistics: ['Maximum'],
           unit: 'None'
